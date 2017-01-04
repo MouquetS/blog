@@ -12,15 +12,17 @@ class Log
         "Date" => $date -> format("Y-m-d H:i:s"),
         "Message" => $e
         );
+        /*
         $log_file = fopen("./contents/logs_" . $date -> format ('d-m-y ') . ".csv","a+");
         fputcsv($log_file,$log,",");
         fclose($log_file);
-        Log::logErreur();
+        */
+        static::logErreur($log);
         }
 
-    private static function logErreur() {
-        $log_file = fopen("./contents/logs_" . $date -> format ('d-m-y ') . ".csv","a+");
-        fputcsv($log_file,$log,",");
+    private static function logErreur($tableauMessage) {
+        $log_file = fopen("./contents/logs_" . static::$date -> format ('d-m-y ') . ".csv","a+");
+        fputcsv($log_file,$tableauMessage,",");
         fclose($log_file);
     }
 
