@@ -1,26 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Dell
- * Date: 04/01/2017
- * Time: 12:30
- */
 
-class Log
+class log
 {
     private static $today;
-    private static $now;
+    private static $hour;
+    private static $exception;
 
-    private static $path = "functions/logs/erreur.php";
+    private static $path = "functions/logs/";
 
-    public static function erreur() {
+    public static function connexion() {
         try {
             $pdo = new PDO("n'importe quoi !");
         } catch (Exception $e) {
-            $today = date("d/m/y");
-            $now = date("H:i:s");
-        $logFiles = fopen(Log::$path,'a+');
-        fclose($logFiles);
+            log::$exception = $e;
+            log::$today = date("d.m.y");
+            log::$hour = date("H:i:s");
+            log::$path .= log::$today."Erreur.txt";
+            log::logErreur();
         }
     }
+
+    private static function logErreur() {
+        $logFiles = fopen(log::$path,'a+');
+        fwrite($logFiles,log::$today."[".log::$hour."]".log::$exception);
+        fclose($logFiles);
+    }
 }
+
+log::connexion();
