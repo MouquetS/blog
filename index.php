@@ -1,8 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Dell
- * Date: 04/01/2017
- * Time: 12:11
- */
+require "./classes/autoload.php";
+spl_autoload_register('Autoload::classesAutoloader');
+
+
+log::writeCSV("hello");
+/*
 include "functions/logs/log.php";
+*/
