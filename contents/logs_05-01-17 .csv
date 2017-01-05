@@ -5,3 +5,13 @@
 "2017-01-05 10:45:34",hello
 "2017-01-05 10:45:46",hello
 "2017-01-05 10:45:50",hello
+"2017-01-05 12:13:29","exception 'PDOException' with message 'SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: ''@'@localhost' (mot de passe: NON)' in C:\wamp64\www\blog\classes\myDb.php:17
+Stack trace:
+#0 C:\wamp64\www\blog\classes\myDb.php(17): PDO->__construct('mysql:host=loca...', NULL, '')
+#1 C:\wamp64\www\blog\index.php(7): myDb->__construct('localhost', 'root', '', 'blog')
+#2 {main}"
+"2017-01-05 12:24:16","exception 'PDOException' with message 'SQLSTATE[HY000] [1045] Accès refusé pour l'utilisateur: ''@'@localhost' (mot de passe: NON)' in C:\wamp64\www\blog\classes\myDb.php:17
+Stack trace:
+#0 C:\wamp64\www\blog\classes\myDb.php(17): PDO->__construct('mysql:host=loca...', NULL, '')
+#1 C:\wamp64\www\blog\index.php(7): myDb->__construct('localhost', 'root', '', 'blog')
+#2 {main}"
