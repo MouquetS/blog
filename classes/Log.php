@@ -7,23 +7,14 @@ class Log
     public static function writeCSV($e) {
         $date = new DateTime();
         $date ->setTimezone(new DateTimeZone('Europe/Paris'));
-
         $log = array(
         "Date" => $date -> format("Y-m-d H:i:s"),
         "Message" => $e
         );
-        /*
         $log_file = fopen("./contents/logs_" . $date -> format ('d-m-y ') . ".csv","a+");
         fputcsv($log_file,$log,",");
         fclose($log_file);
-        */
-        static::logErreur($log);
         }
 
-    private static function logErreur($tableauMessage) {
-        $log_file = fopen("./contents/logs_" . static::$date -> format ('d-m-y ') . ".csv","a+");
-        fputcsv($log_file,$tableauMessage,",");
-        fclose($log_file);
-    }
 
 }
