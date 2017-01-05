@@ -35,7 +35,7 @@ class User
             ":nom" => $this -> nom,
             ":prenom" => $this -> prenom,
           ));
-        } else echo "Vos identifiants sont déjà existants";
+        } else log::writeCSV("Un utilisateur a essayé de se connecter avec l'adresse mail ".$this -> email." (déjà existante).");
     }
 
     public function connecter() {
