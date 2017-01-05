@@ -38,11 +38,11 @@ class User
         } else echo "Vos identifiants sont déjà existants";
     }
 
-    public static function connecter() {
-      $request = "SELECT * FROM user WHERE email =:email AND password =:password";
+    public function connecter() {
+      $request = $this->instance->prepare("SELECT * FROM user WHERE email =:email AND password =:password");
       $request-> execute(array(
-        ":email" => $this->email,
-        ":password" => $this->password
+        "email" => $this->email,
+        "password" => sha1($this->password)
       ));
       $userConnect = $request -> fetch();
       if($userConnect) {
