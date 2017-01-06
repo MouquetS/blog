@@ -16,35 +16,54 @@ class User
         $this ->email = $email;
         $this ->nom = $nom;
         $this ->prenom = $prenom;
-        $connect = new MyDb("localhost","root","","blog");
+        $connect = new MyDb();
         $this->instance = $connect->connectDb();
     }
 
     public function inscrire() {
-        // Vérification de l'existence de l'utilisateur
-        $request = $this->instance->prepare("SELECT * FROM user WHERE email ='".$this -> email."'");
-        $request -> execute();
-        $userExist = $request->fetch();
-        // inscription en BDD en cas de non existence de l'utilisateur
+
+      // données pour la requête INSERT INTO
+      $insertTable = "user(pseudo,password,email,lastname,firstname)";
+      $insertValue = ":pseudo,:password,:email,:nom,:prenom";
+      $insertData = array(
+        ":pseudo" => $this -> pseudo,
+        ":password" => sha1($this -> password),
+        ":email" => $this -> email,
+        ":nom" => $this -> nom,
+        ":prenom" => $this -> prenom
+      );
+      // données pour la requête du SELECT
+      $selectTable = "user";
+      $selectValue = "*";
+      $selectData = array();
+      $selectCondition ="WHERE email ='".$this -> email."'";
+      // Vérification de l'existence de l'utilisateur
+      $monInscription = new MyDb();
+      $monInscription->connectDb();
+      $userExist = $monInscription->select($selectTable,$selectValue,$selectCondition,$selectData);
+
+      // inscription en BDD en cas de non existence de l'utilisateur
         if(!$userExist) {
-          $request = $this->instance->prepare("INSERT INTO user(pseudo,password,email,lastname,firstname) VALUES(:pseudo,:password,:email,:nom,:prenom)");
-          $request->execute(array(
-            ":pseudo" => $this -> pseudo,
-            ":password" => sha1($this -> password),
-            ":email" => $this -> email,
-            ":nom" => $this -> nom,
-            ":prenom" => $this -> prenom,
-          ));
+          // Inscrit l'utilisateur en BDD
+          $monInscription = new MyDb();
+          $monInscription->connectDb();
+          $monInscription->insertInto($insertTable,$insertValue,$insertData);
         } else log::writeCSV("Un utilisateur a essayé de se connecter avec l'adresse mail ".$this -> email." (déjà existante).");
     }
 
     public function connecter() {
-      $request = $this->instance->prepare("SELECT * FROM user WHERE email =:email AND password =:password");
-      $request-> execute(array(
+      $selectTable ="user";
+      $selectValue="*";
+      $selectCondition="WHERE email =:email AND password =:password";
+      $selectData = array(
         "email" => $this->email,
         "password" => sha1($this->password)
-      ));
-      $userConnect = $request -> fetch();
+      );
+
+      $userConnexion = new MyDb();
+      $userConnexion->connectDb();
+      $userConnect = $userConnexion->select($selectTable,$selectValue,$selectCondition,$selectData);
+
       if($userConnect) {
         $_SESSION['user'] = array(
           "pseudo" => $userConnect['pseudo'],

@@ -18,10 +18,11 @@ class Article {
     $this->instance = $connect->connectDb();
   }
 
-  public function afficher() {}
+  public function afficher() {
+    echo $this->titre."<br />".$this->chapo."<br />".$this->content;
+  }
 
   public function modifier($titre,$chapo,$content,$article_id) {
-    
     // récupère l'id de l'utilisateur qui a crée l'article
     $request = $this->instance->prepare("SELECT user_id FROM article WHERE id =:article_id");
     $request->execute(array(
@@ -41,10 +42,9 @@ class Article {
       "content"=>$this->content,
       "id"=>$article_id
       ));
-  } else { // Affiche un message d'erreur dans le log en cas de modification non autorisée
+    } else { // Affiche un message d'erreur dans le log en cas de modification non autorisée
       log::writeCSV("L'utilisateur (id = ".$_SESSION['user']['id'].") a essayé de modifier l'article appartenant à l'utilisateur ".$userArticle['user_id']." !");
-  }
-
+    }
   }
 
   public function poster() {

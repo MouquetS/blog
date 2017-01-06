@@ -11,7 +11,7 @@ class Log
         "Date" => $date -> format("Y-m-d H:i:s"),
         "Message" => $e
         );
-        $log_file = fopen("./contents/logs_" . $date -> format ('d-m-y ') . ".csv","a+");
+        $log_file = fopen("./logs/logs_" . $date -> format ('d-m-y ') . ".csv","a+");
         fputcsv($log_file,$log,",");
         fclose($log_file);
         }
